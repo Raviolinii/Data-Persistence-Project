@@ -20,7 +20,7 @@ public class Menu : MonoBehaviour
 
         startButton = GetComponentInChildren<Button>();
         startButton.interactable = false;
-        startButton.onClick.AddListener(delegate {OnStartClick();});
+        startButton.onClick.AddListener(OnStartClick);
     }
     public bool NameLength()
     {
@@ -38,6 +38,7 @@ public class Menu : MonoBehaviour
     }
     public void OnStartClick()
     {
+        DataPersistence.SetPlayerName(inputField.text);
         SceneManager.LoadScene(1);
     }
 }

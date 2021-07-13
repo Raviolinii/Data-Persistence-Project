@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+        // This code is provided by Unity Learn
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
@@ -17,6 +18,7 @@ public class MainManager : MonoBehaviour
     private int m_Points;
     
     private bool m_GameOver = false;
+    private string nick = "";           // required update
 
     
     // Start is called before the first frame update
@@ -34,8 +36,11 @@ public class MainManager : MonoBehaviour
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
-            }
+            }            
         }
+
+        nick = DataPersistence.GetNick();           // required update
+        ScoreText.text = $"{nick} Score : 0";       //  ...
     }
 
     private void Update()
@@ -65,7 +70,7 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"{nick} Score : {m_Points}";          // required update
     }
 
     public void GameOver()

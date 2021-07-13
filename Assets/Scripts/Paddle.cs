@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
+    // This code is provided by Unity Learn
+    
     public float Speed = 2.0f;
     public float MaxMovement = 2.0f;
     

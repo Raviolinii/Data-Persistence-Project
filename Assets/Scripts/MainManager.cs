@@ -6,24 +6,25 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
-        // This code is provided by Unity Learn
+        // This code is provided by Unity Learn with some updates
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
-
     public Text ScoreText;
     public GameObject GameOverText;
-    
     private bool m_Started = false;
     private int m_Points;
-    
     private bool m_GameOver = false;
-    private string nick = "";           // required update
+
+    private string nick = "";           // update
+    private string highScore;           // ...
+    public Text highScoreText;          // ...
 
     
     // Start is called before the first frame update
     void Start()
     {
+        SetHighScoreText();
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -39,7 +40,7 @@ public class MainManager : MonoBehaviour
             }            
         }
 
-        nick = DataPersistence.GetNick();           // required update
+        nick = DataPersistence.GetNick();           // update
         ScoreText.text = $"{nick} Score : 0";       //  ...
     }
 
@@ -70,12 +71,25 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"{nick} Score : {m_Points}";          // required update
+        ScoreText.text = $"{nick} Score : {m_Points}";          // update
     }
 
     public void GameOver()
     {
         m_GameOver = true;
+        if (m_Points > DataPersistence.GetHighScore())         // update
+            DataPersistence.Instance.SaveScore(m_Points);      // ...
         GameOverText.SetActive(true);
+    }
+
+    private void SetHighScoreText()                             // update
+    {
+        if (DataPersistence.GetHighScore() != -1)
+        {
+            string result = $"Best Score : {DataPersistence.GetHighScore()} Name : {DataPersistence.GetBestPlayerName()}";
+            highScoreText.text = result;
+        }
+        else
+            highScoreText.text = "";
     }
 }
